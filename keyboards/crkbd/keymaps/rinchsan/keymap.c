@@ -25,8 +25,7 @@ enum layers {
 };
 
 enum custom_keycodes {
-    DVORAK = SAFE_RANGE,
-    LOWER,
+    LOWER = SAFE_RANGE,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -56,22 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!is_keyboard_master()) {
-    return OLED_ROTATION_180;
-  }
-  return rotation;
-}
-
-void oled_render_layer_state(void) {
-    oled_write_P(PSTR("Layer: "), false);
-    switch (layer_state) {
-        case L_BASE:
-            oled_write_ln_P(PSTR("Dvorak"), false);
-            break;
-        case L_LOWER:
-            oled_write_ln_P(PSTR("Sym/Num/F"), false);
-            break;
-    }
+    return is_keyboard_master() ? rotation : OLED_ROTATION_180;
 }
 
 void render_bootmagic_status(bool status) {
@@ -104,11 +88,7 @@ void oled_render_logo(void) {
 }
 
 void oled_task_user(void) {
-    if (is_keyboard_master()) {
-        oled_render_layer_state();
-    } else {
-        oled_render_logo();
-    }
+    oled_render_logo();
 }
 
 static bool lower_pressed = false;

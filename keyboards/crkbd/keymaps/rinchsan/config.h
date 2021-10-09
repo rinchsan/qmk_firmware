@@ -24,6 +24,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define USE_SERIAL_PD2
 #define TAPPING_TERM 100
 #define OLED_FONT_H "keyboards/crkbd/lib/glcdfont.c"
-
-#define L_BASE 0
-#define L_LOWER 2
