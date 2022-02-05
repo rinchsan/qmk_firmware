@@ -52,7 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #define TAPPING_FORCE_HOLD
-#define TAPPING_TERM 200
+#define TAPPING_TERM 100
 
 #define RGB_DI_PIN D3
 #ifdef RGBLIGHT_ENABLE
@@ -63,5 +63,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define RGBLIGHT_HUE_STEP 10
     #define RGBLIGHT_SAT_STEP 17
     #define RGBLIGHT_VAL_STEP 17
+    #define RGBLIGHT_LED_MAP { 140, 140, 140, 140, 140, 140, 140, 140, 140, 140 }
 #endif
-
