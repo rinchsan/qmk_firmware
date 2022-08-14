@@ -39,7 +39,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     { KC_NO, KC_NO, B42, KC_NO, KC_NO,   B45 }  \
   }
 
-
 typedef union {
     uint32_t raw;
     struct {
@@ -52,12 +51,9 @@ typedef union {
     };
 } cocot_config_t;
 
-
-
 extern cocot_config_t cocot_config;
 
 enum cocot_keycodes {
-
     COCOT_SAFE_RANGE = SAFE_RANGE,
     CPI_SW,
     SCRL_SW,
@@ -66,7 +62,6 @@ enum cocot_keycodes {
     SCRL_MO,
     SCRL_TO,
     SCRL_IN,
-
 };
 
 bool encoder_update_user(uint8_t index, bool clockwise);

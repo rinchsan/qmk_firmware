@@ -22,8 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "debug.h"
 #include <stdio.h>
 
-
-
 // Invert vertical scroll direction
 #ifndef COCOT_SCROLL_INV_DEFAULT
 #    define COCOT_SCROLL_INV_DEFAULT 1
@@ -49,7 +47,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    define COCOT_SCROLL_DIV_DEFAULT 4
 #endif
 
-
 #ifndef COCOT_ROTATION_ANGLE
 #    define COCOT_ROTATION_ANGLE { -60, -45, -30, -15, 0, 15, 30, 45, 60 }
 #    ifndef COCOT_ROTATION_DEFAULT
@@ -60,7 +57,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    define COCOT_ROTATION_DEFAULT 2
 #endif
 
-
 cocot_config_t cocot_config;
 uint16_t cpi_array[] = COCOT_CPI_OPTIONS;
 uint16_t scrl_div_array[] = COCOT_SCROLL_DIVIDERS;
@@ -68,7 +64,6 @@ uint16_t angle_array[] = COCOT_ROTATION_ANGLE;
 #define CPI_OPTION_SIZE (sizeof(cpi_array) / sizeof(uint16_t))
 #define SCRL_DIV_SIZE (sizeof(scrl_div_array) / sizeof(uint16_t))
 #define ANGLE_SIZE (sizeof(angle_array) / sizeof(uint16_t))
-
 
 // Trackball State
 bool     BurstState        = false;  // init burst state for Trackball module
@@ -83,7 +78,6 @@ void pointing_device_init_kb(void) {
     // set the CPI.
     pointing_device_set_cpi(cpi_array[cocot_config.cpi_idx]);
 }
-
 
 report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
 
@@ -137,11 +131,9 @@ report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
     return pointing_device_task_user(mouse_report);
 }
 
-
-
 bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
     // xprintf("KL: kc: %u, col: %u, row: %u, pressed: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed);
-    
+
     if (!process_record_user(keycode, record)) return false;
 
     switch (keycode) {
@@ -167,7 +159,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         cocot_config.scrl_div = (cocot_config.scrl_div + 1) % SCRL_DIV_SIZE;
         eeconfig_update_kb(cocot_config.raw);
     }
-    
+
     if (keycode == ROT_R15 && record->event.pressed) {
         cocot_config.rotation_angle = (cocot_config.rotation_angle + 1) % ANGLE_SIZE;
         eeconfig_update_kb(cocot_config.raw);
@@ -194,7 +186,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
     return true;
 }
 
-
 void eeconfig_init_kb(void) {
     cocot_config.cpi_idx = COCOT_CPI_DEFAULT;
     cocot_config.scrl_div = COCOT_SCROLL_DIV_DEFAULT;
@@ -204,7 +195,6 @@ void eeconfig_init_kb(void) {
     eeconfig_update_kb(cocot_config.raw);
     eeconfig_init_user();
 }
-
 
 void matrix_init_kb(void) {
     // is safe to just read CPI setting since matrix init
@@ -217,7 +207,6 @@ void matrix_init_kb(void) {
     matrix_init_user();
 }
 
-
 bool cocot_get_scroll_mode(void) {
     return cocot_config.scrl_mode;
 }
@@ -225,8 +214,6 @@ bool cocot_get_scroll_mode(void) {
 void cocot_set_scroll_mode(bool mode) {
     cocot_config.scrl_mode = mode;
 }
-
-
 
 // OLED utility
 #ifdef OLED_ENABLE
@@ -246,13 +233,12 @@ void render_logo(void) {
 };
 
 void oled_write_layer_state(void) {
-
     oled_write_P(PSTR(" "), false);
     // int cpi = pointing_device_get_cpi();
     int cpi = cpi_array[cocot_config.cpi_idx];
     int scroll_div = scrl_div_array[cocot_config.scrl_div];
     int angle = angle_array[cocot_config.rotation_angle];
-    
+
     char buf1[5];
     char buf2[3];
     char buf3[4];
@@ -292,4 +278,3 @@ void oled_write_layer_state(void) {
 }
 
 #endif
-
