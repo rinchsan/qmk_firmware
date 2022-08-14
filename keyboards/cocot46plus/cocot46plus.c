@@ -24,37 +24,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Invert vertical scroll direction
 #ifndef COCOT_SCROLL_INV_DEFAULT
-#    define COCOT_SCROLL_INV_DEFAULT 1
+#define COCOT_SCROLL_INV_DEFAULT 1
 #endif
 
 #ifndef COCOT_CPI_OPTIONS
-#    define COCOT_CPI_OPTIONS { 250, 500, 750, 1000, 1250 }
-#    ifndef COCOT_CPI_DEFAULT
-#       define COCOT_CPI_DEFAULT 4
-#    endif
+#define COCOT_CPI_OPTIONS { 250, 500, 750, 1000, 1250 }
+#ifndef COCOT_CPI_DEFAULT
+#define COCOT_CPI_DEFAULT 4
+#endif
 #endif
 #ifndef COCOT_CPI_DEFAULT
-#    define COCOT_CPI_DEFAULT 4
+#define COCOT_CPI_DEFAULT 4
 #endif
 
 #ifndef COCOT_SCROLL_DIVIDERS
-#    define COCOT_SCROLL_DIVIDERS { 1, 2, 3, 4, 5, 6 }
-#    ifndef COCOT_SCROLL_DIV_DEFAULT
-#       define COCOT_SCROLL_DIV_DEFAULT 4
-#    endif
+#define COCOT_SCROLL_DIVIDERS { 1, 2, 3, 4, 5, 6 }
+#ifndef COCOT_SCROLL_DIV_DEFAULT
+#define COCOT_SCROLL_DIV_DEFAULT 4
+#endif
 #endif
 #ifndef COCOT_SCROLL_DIV_DEFAULT
-#    define COCOT_SCROLL_DIV_DEFAULT 4
+#define COCOT_SCROLL_DIV_DEFAULT 4
 #endif
 
 #ifndef COCOT_ROTATION_ANGLE
-#    define COCOT_ROTATION_ANGLE { -60, -45, -30, -15, 0, 15, 30, 45, 60 }
-#    ifndef COCOT_ROTATION_DEFAULT
-#       define COCOT_ROTATION_DEFAULT 2
-#    endif
+#define COCOT_ROTATION_ANGLE { -60, -45, -30, -15, 0, 15, 30, 45, 60 }
+#ifndef COCOT_ROTATION_DEFAULT
+#define COCOT_ROTATION_DEFAULT 2
+#endif
 #endif
 #ifndef COCOT_ROTATION_DEFAULT
-#    define COCOT_ROTATION_DEFAULT 2
+#define COCOT_ROTATION_DEFAULT 2
 #endif
 
 cocot_config_t cocot_config;

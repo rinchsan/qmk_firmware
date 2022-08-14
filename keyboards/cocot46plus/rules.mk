@@ -5,8 +5,8 @@ MCU = atmega32u4
 BOOTLOADER = caterina
 
 # Build Options
-#   change yes to no to disable
-#
+
+# change yes to no to disable
 ENCODER_ENABLE   = yes
 BOOTMAGIC_ENABLE = yes # Enable Bootmagic Lite
 MOUSEKEY_ENABLE  = yes # Mouse keys
