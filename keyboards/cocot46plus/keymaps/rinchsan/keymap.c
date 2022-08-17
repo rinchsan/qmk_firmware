@@ -38,7 +38,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_LSFT, KC_SCLN,    KC_Q,    KC_J,    KC_K,    KC_X,                                          KC_B,    KC_M,    KC_W,    KC_V,    KC_Z, KC_BSLS,
   //|-------------------------------------------------------|                                   |-------------------------------------------------------|
                         XXXXXXX, KC_LOPT, KC_LCMD,  KC_SPC,   KC_MS_BTN1,             KC_MS_BTN2,  KC_ENT,   LOWER,  KC_ESC,  XXXXXXX,
-                                                               KC_PGDOWN, KC_MS_BTN3,    KC_PGUP, XXXXXXX, XXXXXXX, XXXXXXX
+                                                                 KC_WH_D, KC_MS_BTN3,    KC_WH_U, XXXXXXX, XXXXXXX, XXXXXXX
                                                             //`--------------'  `--------------'
     ),
   [_LOWER] = LAYOUT(
@@ -50,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_BRID,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                         KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10, KC_RBRC,
   //|-------------------------------------------------------|                                   |-------------------------------------------------------|
                         XXXXXXX, KC_MUTE, XXXXXXX,  KC_SPC,   KC_MS_BTN1,             KC_MS_BTN2, KC_VOLD, _______, KC_VOLU,  XXXXXXX,
-                                                               KC_PGDOWN, KC_MS_BTN3,    KC_PGUP, XXXXXXX, XXXXXXX, XXXXXXX
+                                                                 KC_WH_R, KC_MS_BTN3,    KC_WH_L, XXXXXXX, XXXXXXX, XXXXXXX
                                                             //`--------------'  `--------------'
     ),
 };
