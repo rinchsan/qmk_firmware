@@ -15,6 +15,7 @@
  */
 #include QMK_KEYBOARD_H
 #include <stdio.h>
+#include <math.h>
 
 #include "paw3204.h"
 #include "pointing_device.h"
@@ -29,13 +30,6 @@ enum layer_number {
     _ADJUST = 3,
 };
 
-enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  MBTN1,
-  MBTN2,
-  MBTN3,
-  SCRL
-};
 
 #define LW_MHEN LT(1,KC_MHEN)  // lower
 #define RS_HENK LT(2,KC_HENK)  // raise
@@ -90,31 +84,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 
-char keylog_str[24] = {};
-
-const char code_to_name[60] = {
-    ' ', ' ', ' ', ' ', 'a', 'b', 'c', 'd', 'e', 'f',
-    'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-    'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-    '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
-    'R', 'E', 'B', 'T', '_', '-', '=', '[', ']' , '\\',
-    '#', ';', '\'', '`', ',', '.', '/', ' ', ' ', ' '};
-
-void set_keylog(uint16_t keycode, keyrecord_t *record) {
-  char name = ' ';
-    if ((keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) ||
-        (keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX)) { keycode = keycode & 0xFF; }
-  if (keycode < 60) {
-    name = code_to_name[keycode];
-  }
-
-  // update keylog
-  snprintf(keylog_str, sizeof(keylog_str), "%dx%d, k%2d : %c",
-           record->event.key.row, record->event.key.col,
-           keycode, name);
-}
-
-
 keyevent_t encoder1_ccw = {
     .key = (keypos_t){.row = 3, .col = 6},
     .pressed = false
@@ -141,53 +110,6 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     return true;
 }
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  report_mouse_t currentReport = {};
-
-  switch (keycode) {
-    case MBTN1:
-      currentReport = pointing_device_get_report();
-      if (record->event.pressed) {
-        currentReport.buttons |= MOUSE_BTN1;
-      }
-      else {
-        currentReport.buttons &= ~MOUSE_BTN1;
-      }
-      pointing_device_set_report(currentReport);
-      return false;
-    case MBTN2:
-      currentReport = pointing_device_get_report();
-      if (record->event.pressed) {
-        currentReport.buttons |= MOUSE_BTN2;
-      }
-      else {
-        currentReport.buttons &= ~MOUSE_BTN2;
-      }
-      pointing_device_set_report(currentReport);
-      return false;
-    case MBTN3:
-      currentReport = pointing_device_get_report();
-      if (record->event.pressed) {
-        currentReport.buttons |= MOUSE_BTN3;
-      }
-      else {
-        currentReport.buttons &= ~MOUSE_BTN3;
-      }
-      pointing_device_set_report(currentReport);
-      return false;
-    case SCRL:
-      if (record->event.pressed) {
-        isScrollMode = true;
-        dprint("scroll ON\n");
-      }
-      else {
-        isScrollMode = false;
-        dprint("scroll OFF\n");
-      }
-      return false;
-  }
-  return true;
-}
 
 void matrix_init_user(void) {
     init_paw3204();
@@ -230,12 +152,13 @@ void matrix_scan_user(void) {
         read_paw3204(&stat, &x, &y);
 
         // 45-degree angle
-        int8_t degree = 45;
-        r_x =  + x * cos(degree) + y * sin(degree);
-        r_y =  - x * sin(degree) + y * cos(degree);
+        int8_t deg = 45;
+        double rad = deg * (M_PI / 180);
+        r_x =  + x * cos(rad) + y * sin(rad);
+        r_y =  - x * sin(rad) + y * cos(rad);
         // int8_t degree = -45;
-        // r_x =  - x * cos(degree) - y * sin(degree);
-        // r_y =  + x * sin(degree) - y * cos(degree);
+        // r_x =  - x * cos(rad) - y * sin(rad);
+        // r_y =  + x * sin(rad) - y * cos(rad);
         /* normal angle
         r_x = y;
         r_y = x;
@@ -264,8 +187,6 @@ void matrix_scan_user(void) {
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
     case _LOWER:
-        isScrollMode = true;
-        break;
     case _RAISE:
         isScrollMode = true;
         break;

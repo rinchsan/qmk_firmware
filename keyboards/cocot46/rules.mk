@@ -13,6 +13,7 @@ CUSTOM_MATRIX = yes
 
 ENCODER_ENABLE = yes
 POINTING_DEVICE_ENABLE = yes
+POINTING_DEVICE_DRIVER = custom
 BOOTMAGIC_ENABLE = no       # Virtual DIP switch configuration
 MOUSEKEY_ENABLE = yes       # Mouse keys
 EXTRAKEY_ENABLE = yes       # Audio control and System control

@@ -89,11 +89,13 @@ uint8_t matrix_cols(void) {
 }
 
 //Deprecated.
+/*
 bool matrix_is_modified(void)
 {
     if (debounce_active()) return false;
     return true;
 }
+*/
 
 inline
 bool matrix_is_on(uint8_t row, uint8_t col)
@@ -225,6 +227,7 @@ static bool read_rows_on_col(matrix_row_t current_matrix[], uint8_t current_col)
     for(uint8_t row_index = 0; row_index < MATRIX_ROWS; row_index++)
     {
         // Store last value of row prior to reading
+        // change tmp tp row_index
         matrix_row_t last_row_value = current_matrix[row_index];
 
         if (readPin(row_pins[row_index])) {
