@@ -15,6 +15,7 @@
  */
 #include QMK_KEYBOARD_H
 #include <stdio.h>
+#include <math.h>
 
 #include "paw3204.h"
 #include "pointing_device.h"
@@ -29,11 +30,11 @@ enum layers {
 
 enum custom_keycodes {
   LOWER = SAFE_RANGE,
-  MBTN1,
-  MBTN2,
-  MBTN3,
-  SCRL
 };
+
+#define LW_MHEN LT(1,KC_MHEN)  // lower
+#define RS_HENK LT(2,KC_HENK)  // raise
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_DVORAK] = LAYOUT(
@@ -60,6 +61,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
+
+keyevent_t encoder1_ccw = {
+    .key = (keypos_t){.row = 3, .col = 6},
+    .pressed = false
+};
+
+keyevent_t encoder1_cw = {
+    .key = (keypos_t){.row = 2, .col = 6},
+    .pressed = false
+};
+
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    if (index == 0) { /* First encoder */
+        if (clockwise) {
+            encoder1_cw.pressed = true;
+            encoder1_cw.time = (timer_read() | 1);
+            action_exec(encoder1_cw);
+        } else {
+            encoder1_ccw.pressed = true;
+            encoder1_ccw.time = (timer_read() | 1);
+            action_exec(encoder1_ccw);
+        }
+    }
+
+    return true;
+}
+
+
 static bool lower_pressed = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -78,7 +107,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         default:
             if (record->event.pressed) {
-                lower_pressed = false;
+               lower_pressed = false;
             }
             return true;
     }
@@ -87,16 +116,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void matrix_init_user(void) {
     init_paw3204();
 }
-
-keyevent_t encoder1_ccw = {
-    .key = (keypos_t){.row = 3, .col = 6},
-    .pressed = false
-};
-
-keyevent_t encoder1_cw = {
-    .key = (keypos_t){.row = 2, .col = 6},
-    .pressed = false
-};
 
 void matrix_scan_user(void) {
     static int  cnt;
@@ -135,12 +154,13 @@ void matrix_scan_user(void) {
         read_paw3204(&stat, &x, &y);
 
         // 45-degree angle
-        int8_t degree = 45;
-        r_x =  + x * cos(degree) + y * sin(degree);
-        r_y =  - x * sin(degree) + y * cos(degree);
+        int8_t deg = 45;
+        double rad = deg * (M_PI / 180);
+        r_x =  + x * cos(rad) + y * sin(rad);
+        r_y =  - x * sin(rad) + y * cos(rad);
         // int8_t degree = -45;
-        // r_x =  - x * cos(degree) - y * sin(degree);
-        // r_y =  + x * sin(degree) - y * cos(degree);
+        // r_x =  - x * cos(rad) - y * sin(rad);
+        // r_y =  + x * sin(rad) - y * cos(rad);
         /* normal angle
         r_x = y;
         r_y = x;
@@ -175,5 +195,5 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         isScrollMode = false;
         break;
     }
-    return state;
+  return state;
 }
